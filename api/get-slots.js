@@ -1,0 +1,45 @@
+// /api/getSlots.js
+import fetch from 'node-fetch';
+
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  const { eventTypeId, start, end, timeZone } = req.body;
+  if (!eventTypeId || !start || !end || !timeZone) {
+    return res.status(400).json({ error: 'Missing parameters' });
+  }
+
+  try {
+    const apiKey = process.env.CAL_API_KEY;
+    if (!apiKey) {
+      return res.status(500).json({ error: 'API key not configured' });
+    }
+
+    const query = new URLSearchParams({
+      eventTypeId,
+      start,
+      end,
+      timeZone
+    }).toString();
+
+    const response = await fetch(`https://api.cal.com/v2/slots?${query}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'cal-api-version': '2024-09-04'
+      }
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      return res.status(response.status).json({ error: errorText || 'API error' });
+    }
+
+    const data = await response.json();
+    res.status(200).json({ status: 'success', data: data.data });
+  } catch (err) {
+    res.status(500).json({ error: err.message || 'Server error' });
+  }
+}
