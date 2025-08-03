@@ -1,9 +1,11 @@
 {
   "version": 2,
   "builds": [
-    { "src": "api/get-slots.js", "use": "@vercel/node" }
+    { "src": "api/get-slots.js", "use": "@vercel/node" },
+    { "src": "api/create-booking.js", "use": "@vercel/node" }
   ],
   "routes": [
-    { "src": "/api/get-slots", "dest": "/api/get-slots.js" }
+    { "src": "/api/get-slots", "dest": "/api/get-slots.js" },
+    { "src": "/api/create-booking.js", "dest": "/api/create-booking.js" }
   ]
 }
