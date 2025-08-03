@@ -6,6 +6,6 @@
   ],
   "routes": [
     { "src": "/api/get-slots", "dest": "/api/get-slots.js" },
-    { "src": "/api/create-booking.js", "dest": "/api/create-booking.js" }
+    { "src": "/api/create-booking", "dest": "/api/create-booking.js" }
   ]
 }

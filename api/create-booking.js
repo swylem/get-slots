@@ -25,12 +25,10 @@ export default async function handler(req, res) {
     start,
     attendee,
     bookingFieldsResponses,
-    eventTypeId,
-    language,
-    timeZone
+    eventTypeId
   } = req.body;
 
-  if (!start || !attendee || !eventTypeId || !language || !timeZone) {
+  if (!start || !attendee || !eventTypeId || !bookingFieldsResponses) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
 
@@ -45,8 +43,6 @@ export default async function handler(req, res) {
       attendee,
       bookingFieldsResponses,
       eventTypeId,
-      language,
-      timeZone,
     };
 
     const response = await fetch(`https://api.cal.com/v2/bookings`, {
